@@ -4,7 +4,8 @@ import { secureStorage } from '@/services/storage';
 interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (token: string, refreshToken: string) => Promise<void>;
+  user: any | null;
+  login: (token: string, refreshToken: string, user: any) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
 }
@@ -12,14 +13,15 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   isLoading: true,
-  login: async (token, refresh) => {
+  user: null,
+  login: async (token, refresh, user) => {
     await secureStorage.setAccessToken(token);
     await secureStorage.setRefreshToken(refresh);
-    set({ isAuthenticated: true });
+    set({ isAuthenticated: true, user });
   },
   logout: async () => {
     await secureStorage.clearAll();
-    set({ isAuthenticated: false });
+    set({ isAuthenticated: false, user: null });
   },
   checkAuth: async () => {
     const token = await secureStorage.getAccessToken();

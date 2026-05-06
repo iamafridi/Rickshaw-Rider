@@ -7,6 +7,15 @@ export interface Driver {
   plateNumber: string;
   type: 'manual' | 'electric';
   photoUrl?: string;
+  vehicleType: 'regular' | 'electric' | 'premium';
+  currentLocation: { latitude: number; longitude: number };
+  status: 'active' | 'inactive' | 'busy';
+  isVerified: boolean;
+}
+
+export interface DriverLocation {
+  latitude: number;
+  longitude: number;
 }
 
 export interface NearbyDriver extends Driver {

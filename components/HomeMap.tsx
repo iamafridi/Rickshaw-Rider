@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
-import { useRiderStore } from '../stores/riderStore';
+import { useRiderStore } from '../store/riderStore';
 import { DriverMarker } from './DriverMarker';
 import { colors } from '../constants/colors';
 

@@ -3,6 +3,7 @@ type Lang = 'bn' | 'en';
 export const getStrings = (lang: Lang) => ({
   home: {
     searchPlaceholder: lang === 'bn' ? 'আপনি কোথায় যাবেন?' : 'Where do you want to go?',
+    whereTo:           lang === 'bn' ? 'কোথায় যাবেন?' : 'Where to?',
     nearbyDrivers:     (n: number) =>
       lang === 'bn' ? `${n}টি রিকশা কাছে আছে` : `${n} rickshaws nearby`,
     noDrivers:         lang === 'bn' ? 'কাছে কোনো রিকশা নেই' : 'No rickshaws nearby',

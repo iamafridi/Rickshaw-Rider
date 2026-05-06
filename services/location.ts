@@ -70,7 +70,7 @@ export const watchLocation = async (
 
     const sub = await Location.watchPositionAsync(
       { accuracy: Location.Accuracy.Balanced, timeInterval: 5000, distanceInterval: 10 },
-      (pos) => onUpdate({ latitude: pos.coords.latitude, longitude: pos.coords.longitude })
+      (pos: any) => onUpdate({ latitude: pos.coords.latitude, longitude: pos.coords.longitude })
     );
     return () => sub.remove();
   } catch {

@@ -6,6 +6,7 @@
  */
 
 import { Platform } from 'react-native';
+import type { Notification, NotificationResponse } from 'expo-notifications';
 
 export interface NotificationPayload {
   title: string;
@@ -85,7 +86,7 @@ export const addNotificationListener = (
   (async () => {
     try {
       const Notifications = await import('expo-notifications');
-      subscription = Notifications.addNotificationReceivedListener((notification) => {
+      subscription = Notifications.addNotificationReceivedListener((notification: Notification) => {
         const { title, body, data } = notification.request.content;
         onReceive({ title: title ?? '', body: body ?? '', data: data as Record<string, unknown> });
       });
@@ -112,7 +113,7 @@ export const addNotificationResponseListener = (
   (async () => {
     try {
       const Notifications = await import('expo-notifications');
-      subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+      subscription = Notifications.addNotificationResponseReceivedListener((response: NotificationResponse) => {
         const data = response.notification.request.content.data as Record<string, unknown>;
         onResponse(data);
       });

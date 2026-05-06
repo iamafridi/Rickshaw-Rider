@@ -16,6 +16,7 @@ const MOCK_DRIVER: Driver = {
   rating: 4.8,
   tripsCount: 1420,
   plateNumber: 'DHAKA-D 12-3456',
+  type: 'manual',
   vehicleType: 'regular',
   currentLocation: { latitude: 23.8105, longitude: 90.4120 },
   status: 'active',
@@ -49,7 +50,11 @@ export default function TrackingScreen() {
         
         {/* Safety Tools overlay */}
         <SafeAreaView style={styles.safetyHeader}>
-          <SafeRideShare />
+          <SafeRideShare 
+            onShare={() => {}} 
+            driverName={MOCK_DRIVER.name} 
+            rideId="mock-ride-id" 
+          />
           <SOSButton onPress={() => {}} />
         </SafeAreaView>
       </View>

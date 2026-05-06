@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
-import { MMKV } from 'react-native-mmkv';
+const { MMKV } = require('react-native-mmkv');
 
 // Sensitive — encrypted by OS keychain
 export const secureStorage = {

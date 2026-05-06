@@ -12,5 +12,6 @@ export const colors = {
   success:       '#388E3C',
   taka:          '#1B5E20',
   border:        '#E0E0E0',
-  surge:         '#FF6F00',   // Orange for surge pricing
+  surge:         '#FF6F00',
+  warning:       '#FFC107',
 } as const;
