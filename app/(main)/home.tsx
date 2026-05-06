@@ -11,6 +11,7 @@ import { strings } from '@/constants/strings';
 import { Ionicons } from '@expo/vector-icons';
 import { useNotificationStore } from '@/store/notificationStore';
 import { useBookingStore } from '@/store/bookingStore';
+import { useNearbyDrivers } from '@/hooks/useNearbyDrivers';
 
 type BookingMode = 'ride' | 'rent';
 const RENT_DURATIONS = [1, 2, 4, 8];
@@ -22,6 +23,7 @@ export default function HomeScreen() {
   const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
   
+  useNearbyDrivers();
   const router = useRouter();
   const unreadCount = useNotificationStore((state) => state.unreadCount);
   const setRideType = useBookingStore((state) => state.setRideType);

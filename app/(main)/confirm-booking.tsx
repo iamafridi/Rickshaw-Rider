@@ -8,8 +8,10 @@ import { PaymentMethod } from '@/types/payment';
 import { colors } from '@/constants/colors';
 import { typography } from '@/constants/typography';
 import { strings } from '@/constants/strings';
+import { useBooking } from '@/hooks/useBooking';
 
 export default function ConfirmBookingScreen() {
+  const { requestRide, isRequesting } = useBooking();
   const router = useRouter();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
   const [promoCode, setPromoCode] = useState('');
@@ -27,9 +29,12 @@ export default function ConfirmBookingScreen() {
     }
   };
 
-  const handleConfirm = () => {
-    // Navigate to matching screen
-    router.push('/(main)/matching' as any);
+  const handleConfirm = async () => {
+    const res = await requestRide();
+    if (!res.ok) {
+      // Could show an Alert here
+      console.warn('Booking failed:', res.error);
+    }
   };
 
   const handleBack = () => {

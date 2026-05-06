@@ -11,6 +11,35 @@ export default function RootLayout() {
     checkAuth();
   }, [checkAuth]);
 
+  // Handle Socket initialization and Global Listeners
+  useEffect(() => {
+    if (!isAuthenticated || isLoading) return;
+
+    const setupSocket = async () => {
+      const { initSocket } = await import('@/services/socket');
+      const socket = await initSocket();
+
+      socket.on('ride:matched', (data) => {
+        router.push({ pathname: '/(main)/tracking', params: { rideId: data.rideId } });
+      });
+
+      socket.on('driver:arrived', () => {
+        router.push('/(main)/driver-arrived');
+      });
+
+      socket.on('trip:started', () => {
+        router.replace('/(main)/active-trip');
+      });
+
+      socket.on('trip:completed', () => {
+        router.replace('/(main)/trip-complete');
+      });
+    };
+
+    setupSocket();
+  }, [isAuthenticated, isLoading, router]);
+
+  // Handle Auth redirection and segments
   useEffect(() => {
     if (isLoading) return;
 

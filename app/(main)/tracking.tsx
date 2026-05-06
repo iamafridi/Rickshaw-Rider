@@ -8,31 +8,20 @@ import { SOSButton } from '@/components/SOSButton';
 import { colors } from '@/constants/colors';
 import { typography } from '@/constants/typography';
 import { Driver } from '@/types/driver';
-
-const MOCK_DRIVER: Driver = {
-  id: 'd1',
-  name: 'Rahim Uddin',
-  phone: '+8801700000000',
-  rating: 4.8,
-  tripsCount: 1420,
-  plateNumber: 'DHAKA-D 12-3456',
-  type: 'manual',
-  vehicleType: 'regular',
-  currentLocation: { latitude: 23.8105, longitude: 90.4120 },
-  status: 'active',
-  isVerified: true
-};
+import { useTripTracking } from '@/hooks/useTripTracking';
+import { useBookingStore } from '@/store/bookingStore';
+import { useTripStore } from '@/store/tripStore';
 
 export default function TrackingScreen() {
+  const rideId = useBookingStore(state => state.rideId);
+  const { activeTrip, driverLocation } = useTripStore();
+  
+  useTripTracking(rideId);
+  
   const router = useRouter();
 
   useEffect(() => {
-    // Simulate driver arriving after some time
-    const timer = setTimeout(() => {
-      router.replace('/(main)/driver-arrived' as any);
-    }, 6000);
-
-    return () => clearTimeout(timer);
+    // Initial tracking logic if needed
   }, []);
 
   const handleCall = () => {
@@ -52,8 +41,8 @@ export default function TrackingScreen() {
         <SafeAreaView style={styles.safetyHeader}>
           <SafeRideShare 
             onShare={() => {}} 
-            driverName={MOCK_DRIVER.name} 
-            rideId="mock-ride-id" 
+            driverName={activeTrip?.driver?.name || 'Driver'} 
+            rideId={rideId || 'unknown'} 
           />
           <SOSButton onPress={() => {}} />
         </SafeAreaView>
@@ -66,16 +55,18 @@ export default function TrackingScreen() {
 
         <View style={styles.statusContainer}>
           <Text style={styles.statusTitle}>Driver is on the way</Text>
-          <Text style={styles.statusSubtitle}>PIN: 1234</Text>
+          <Text style={styles.statusSubtitle}>PIN: {activeTrip?.pin || '----'}</Text>
         </View>
         
         <View style={styles.cardWrapper}>
-          <DriverPreviewCard
-            driver={MOCK_DRIVER}
-            etaMinutes={3}
-            onCall={handleCall}
-            onMessage={handleMessage}
-          />
+          {activeTrip?.driver && (
+            <DriverPreviewCard
+              driver={activeTrip.driver}
+              etaMinutes={3} // ETA would ideally come from API/Hook
+              onCall={handleCall}
+              onMessage={handleMessage}
+            />
+          )}
         </View>
       </View>
     </View>

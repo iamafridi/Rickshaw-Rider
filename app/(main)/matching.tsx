@@ -4,6 +4,8 @@ import { useRouter } from 'expo-router';
 import { colors } from '@/constants/colors';
 import { typography } from '@/constants/typography';
 import { strings } from '@/constants/strings';
+import { useBooking } from '@/hooks/useBooking';
+import { useBookingStore } from '@/store/bookingStore';
 
 export default function MatchingScreen() {
   const router = useRouter();
@@ -32,21 +34,21 @@ export default function MatchingScreen() {
     );
   };
 
+  const { cancelRide } = useBooking();
+  const rideId = useBookingStore(state => state.rideId);
+
   useEffect(() => {
     createPulseAnimation(pulse1, 0).start();
     createPulseAnimation(pulse2, 600).start();
     createPulseAnimation(pulse3, 1200).start();
-
-    // Simulate finding a driver after 5 seconds
-    const timer = setTimeout(() => {
-      router.replace('/(main)/tracking' as any);
-    }, 5000);
-
-    return () => clearTimeout(timer);
   }, []);
 
-  const handleCancel = () => {
-    router.replace('/(main)/home' as any);
+  const handleCancel = async () => {
+    if (rideId) {
+      await cancelRide(rideId, 'User cancelled');
+    } else {
+      router.replace('/(main)/home');
+    }
   };
 
   const PulseCircle = ({ anim }: { anim: Animated.Value }) => {

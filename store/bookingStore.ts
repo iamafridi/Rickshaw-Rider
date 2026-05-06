@@ -3,28 +3,39 @@ import { RideType, LocationInfo } from '@/types/ride';
 
 interface BookingState {
   rideType: RideType;
-  origin: LocationInfo | null;
+  pickup: LocationInfo | null; // Renamed from origin to pickup for consistency
   destination: LocationInfo | null;
   durationHours: number | null;
   scheduledAt: string | null;
+  rideId: string | null;
   setRideType: (type: RideType) => void;
-  setOrigin: (origin: LocationInfo) => void;
+  setPickup: (pickup: LocationInfo) => void;
   setDestination: (dest: LocationInfo) => void;
   setDurationHours: (hours: number | null) => void;
   setScheduledAt: (dateString: string | null) => void;
+  setRideId: (id: string | null) => void;
   clear: () => void;
 }
 
 export const useBookingStore = create<BookingState>((set) => ({
   rideType: 'instant',
-  origin: null,
+  pickup: null,
   destination: null,
   durationHours: null,
   scheduledAt: null,
+  rideId: null,
   setRideType: (rideType) => set({ rideType }),
-  setOrigin: (origin) => set({ origin }),
+  setPickup: (pickup) => set({ pickup }),
   setDestination: (destination) => set({ destination }),
   setDurationHours: (durationHours) => set({ durationHours }),
   setScheduledAt: (scheduledAt) => set({ scheduledAt }),
-  clear: () => set({ rideType: 'instant', origin: null, destination: null, durationHours: null, scheduledAt: null }),
+  setRideId: (rideId) => set({ rideId }),
+  clear: () => set({ 
+    rideType: 'instant', 
+    pickup: null, 
+    destination: null, 
+    durationHours: null, 
+    scheduledAt: null,
+    rideId: null 
+  }),
 }));
